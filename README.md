@@ -1,6 +1,6 @@
 # SkyCrypt-Types
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/DuckySoLucky/SkyCrypt-Types.svg)](https://pkg.go.dev/github.com/DuckySoLucky/SkyCrypt-Types)
+[![Go Reference](https://pkg.go.dev/badge/github.com/SkyCryptWebsite/SkyCrypt-Types.svg)](https://pkg.go.dev/github.com/SkyCryptWebsite/SkyCrypt-Types)
 
 Go types for the [Hypixel API](https://api.hypixel.net/)'s SkyBlock data: profiles and their members, museums,
 gardens, players and inventory items. They are shared by
