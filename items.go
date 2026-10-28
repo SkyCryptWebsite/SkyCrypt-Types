@@ -45,14 +45,16 @@ type TextureItemExtraAttributes struct {
 }
 
 type ExtraAttributes struct {
-	Id                     string         `nbt:"id" json:"id,omitempty"`
-	Timestamp              any            `nbt:"timestamp" json:"timestamp,omitempty"`
-	Uuid                   string         `nbt:"uuid" json:"uuid,omitempty"`
-	AbilityScroll          []string       `nbt:"ability_scroll" json:"ability_scroll,omitempty"`
-	AdditionalCoins        int64          `nbt:"additional_coins" json:"additional_coins,omitempty"`
-	ArtOfPeaceApplied      int            `nbt:"artOfPeaceApplied" json:"artOfPeaceApplied,omitempty"`
-	ArtOfWarCount          int            `nbt:"art_of_war_count" json:"art_of_war_count,omitempty"`
-	Boosters               []string       `nbt:"boosters" json:"boosters,omitempty"`
+	Id                string   `nbt:"id" json:"id,omitempty"`
+	Timestamp         any      `nbt:"timestamp" json:"timestamp,omitempty"`
+	Uuid              string   `nbt:"uuid" json:"uuid,omitempty"`
+	AbilityScroll     []string `nbt:"ability_scroll" json:"ability_scroll,omitempty"`
+	AdditionalCoins   int64    `nbt:"additional_coins" json:"additional_coins,omitempty"`
+	ArtOfPeaceApplied int      `nbt:"artOfPeaceApplied" json:"artOfPeaceApplied,omitempty"`
+	ArtOfWarCount     int      `nbt:"art_of_war_count" json:"art_of_war_count,omitempty"`
+	Boosters          []string `nbt:"boosters" json:"boosters,omitempty"`
+	// BoosterTiers replaces Boosters on newer items: each applied booster and the tier it was upgraded to.
+	BoosterTiers           map[string]int `nbt:"booster_tiers" json:"booster_tiers,omitempty"`
 	DivanPowderCoating     int            `nbt:"divan_powder_coating" json:"divan_powder_coating,omitempty"`
 	DungeonItemLevel       any            `nbt:"dungeon_item_level" json:"dungeon_item_level,omitempty"`
 	DyeItem                string         `nbt:"dye_item" json:"dye_item,omitempty"`

@@ -1,3 +1,3 @@
-module github.com/DuckySoLucky/SkyCrypt-Types
+module github.com/SkyCryptWebsite/SkyCrypt-Types
 
 go 1.26.4

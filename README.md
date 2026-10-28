@@ -14,7 +14,7 @@ The module has no dependencies. Fields are tagged for `encoding/json` (Hypixel's
 ## Installation
 
 ```bash
-go get github.com/DuckySoLucky/SkyCrypt-Types
+go get github.com/SkyCryptWebsite/SkyCrypt-Types
 ```
 
 ## What's in it
@@ -61,7 +61,7 @@ import (
 	"log"
 	"os"
 
-	skycrypttypes "github.com/DuckySoLucky/SkyCrypt-Types"
+	skycrypttypes "github.com/SkyCryptWebsite/SkyCrypt-Types"
 )
 
 func main() {
@@ -158,7 +158,7 @@ import (
 	"encoding/base64"
 	"io"
 
-	skycrypttypes "github.com/DuckySoLucky/SkyCrypt-Types"
+	skycrypttypes "github.com/SkyCryptWebsite/SkyCrypt-Types"
 	"github.com/Tnze/go-mc/nbt"
 )
 
