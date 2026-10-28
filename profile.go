@@ -18,7 +18,6 @@ type Profile struct {
 
 type Member struct {
 	PlayerData          *PlayerData            `json:"player_data"`
-	CoopInvitation      *CoopInvitation        `json:"coop_invitation"`
 	Profile             *ProfileData           `json:"profile"`
 	JacobsContest       JacobsContest          `json:"jacobs_contest"`
 	Pets                *Pets                  `json:"pets_data,omitempty"`
@@ -266,7 +265,9 @@ type Experience struct {
 }
 
 type ProfileData struct {
-	DeletionNotice      *DeletionNotice `json:"deletion_notice"`
+	DeletionNotice *DeletionNotice `json:"deletion_notice"`
+	// CoopInvitation is set for members invited to the coop; Confirmed is false until they accept.
+	CoopInvitation      *CoopInvitation `json:"coop_invitation,omitempty"`
 	FirstJoin           int64           `json:"first_join,omitempty"`
 	BankAccount         float64         `json:"bank_account,omitempty"`
 	PersonalBankUpgrade int             `json:"personal_bank_upgrade,omitempty"`
