@@ -144,6 +144,9 @@ Some sections don't map directly to Go types, so they have custom `UnmarshalJSON
   "2": {...}}`. They decode into `EquippedSet` plus `Sets map[int]...` keyed by the set number.
 - **`Bestiary`**: only the `kills` counts are kept, as `map[string]int` (mob ID and level, such as `"automaton_150"`).
 - **`TuningData`** (accessory bag tuning): slots by number, with their stat points and purchase times.
+- **`Toolkit`** (`Garden.FarmingToolkit`, `Foraging.HuntingToolkit`): `IsUnlocked`, the tools by category and slot
+  (`Slots`), and which slots are taken out (`InUse`). Each slot's data is one item's `ExtraAttributes`, not an
+  inventory list.
 
 ## Decoding inventories
 

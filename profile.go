@@ -628,6 +628,7 @@ type GardenProfileData struct {
 	LarvaConsumed             int      `json:"larva_consumed,omitempty"`
 	AnalyzedGreenhouseCrops   []string `json:"analyzed_greenhouse_crops,omitempty"`
 	DiscoveredGreenhouseCrops []string `json:"discovered_greenhouse_crops,omitempty"`
+	FarmingToolkit            *Toolkit `json:"farming_toolkit,omitempty"`
 }
 
 type JacobContestData struct {
@@ -977,6 +978,8 @@ type Foraging struct {
 	Hina       *Hina      `json:"hina,omitempty"`
 	TreeGifts  *TreeGifts `json:"tree_gifts,omitempty"`
 	Songs      *Songs     `json:"songs,omitempty"`
+	// HuntingToolkit holds the hunting scythe, nets, traps and other hunting tools.
+	HuntingToolkit *Toolkit `json:"hunting_toolkit,omitempty"`
 }
 
 type Starlyn struct {
