@@ -23,7 +23,7 @@ type Toolkit struct {
 
 func (t *Toolkit) UnmarshalJSON(data []byte) error {
 	var raw map[string]json.RawMessage
-	if err := json.Unmarshal(data, &raw); err != nil {
+	if err := JSONUnmarshal(data, &raw); err != nil {
 		return err
 	}
 
@@ -31,12 +31,12 @@ func (t *Toolkit) UnmarshalJSON(data []byte) error {
 	for key, value := range raw {
 		switch key {
 		case "IS_UNLOCKED":
-			if err := json.Unmarshal(value, &t.IsUnlocked); err != nil {
+			if err := JSONUnmarshal(value, &t.IsUnlocked); err != nil {
 				return err
 			}
 		case "IN_USE":
 			var inUse map[string]map[string]bool
-			if err := json.Unmarshal(value, &inUse); err != nil {
+			if err := JSONUnmarshal(value, &inUse); err != nil {
 				return err
 			}
 			for category, slots := range inUse {
@@ -64,7 +64,7 @@ func (t *Toolkit) UnmarshalJSON(data []byte) error {
 func unmarshalToolkitSlots(data json.RawMessage) (map[int]EncodedItems, error) {
 	slots := map[int]EncodedItems{}
 	var list []*EncodedItems
-	if err := json.Unmarshal(data, &list); err == nil {
+	if err := JSONUnmarshal(data, &list); err == nil {
 		for i, slot := range list {
 			if slot != nil && slot.Data != "" {
 				slots[i] = *slot
@@ -74,7 +74,7 @@ func unmarshalToolkitSlots(data json.RawMessage) (map[int]EncodedItems, error) {
 	}
 
 	var object map[string]*EncodedItems
-	if err := json.Unmarshal(data, &object); err != nil {
+	if err := JSONUnmarshal(data, &object); err != nil {
 		// Not a category of slots: a field Hypixel added later. Ignore it rather than fail the whole profile.
 		return nil, nil
 	}

@@ -109,7 +109,7 @@ type SavedLoadoutSets struct {
 
 func (l *SavedLoadoutSets) UnmarshalJSON(data []byte) error {
 	var raw map[string]json.RawMessage
-	if err := json.Unmarshal(data, &raw); err != nil {
+	if err := JSONUnmarshal(data, &raw); err != nil {
 		return err
 	}
 
@@ -121,7 +121,7 @@ func (l *SavedLoadoutSets) UnmarshalJSON(data []byte) error {
 		}
 
 		var loadout SavedLoadout
-		if err := json.Unmarshal(value, &loadout); err != nil {
+		if err := JSONUnmarshal(value, &loadout); err != nil {
 			return err
 		}
 
@@ -142,7 +142,7 @@ func (l SavedLoadoutSets) MarshalJSON() ([]byte, error) {
 
 func unmarshalIndexedSets[T any](data []byte) (map[int]T, int, error) {
 	var raw map[string]json.RawMessage
-	if err := json.Unmarshal(data, &raw); err != nil {
+	if err := JSONUnmarshal(data, &raw); err != nil {
 		return nil, 0, err
 	}
 
@@ -151,7 +151,7 @@ func unmarshalIndexedSets[T any](data []byte) (map[int]T, int, error) {
 	for key, value := range raw {
 		switch key {
 		case "equipped_set":
-			if err := json.Unmarshal(value, &equippedSet); err != nil {
+			if err := JSONUnmarshal(value, &equippedSet); err != nil {
 				return nil, 0, err
 			}
 		default:
@@ -161,7 +161,7 @@ func unmarshalIndexedSets[T any](data []byte) (map[int]T, int, error) {
 			}
 
 			var loadout T
-			if err := json.Unmarshal(value, &loadout); err != nil {
+			if err := JSONUnmarshal(value, &loadout); err != nil {
 				return nil, 0, err
 			}
 			sets[setID] = loadout
@@ -398,7 +398,7 @@ type TuningData struct {
 
 func (t *TuningData) UnmarshalJSON(data []byte) error {
 	var raw map[string]json.RawMessage
-	if err := json.Unmarshal(data, &raw); err != nil {
+	if err := JSONUnmarshal(data, &raw); err != nil {
 		return err
 	}
 
@@ -407,7 +407,7 @@ func (t *TuningData) UnmarshalJSON(data []byte) error {
 	for key, value := range raw {
 		switch {
 		case key == "highest_unlocked_slot":
-			if err := json.Unmarshal(value, &t.HighestUnlockedSlot); err != nil {
+			if err := JSONUnmarshal(value, &t.HighestUnlockedSlot); err != nil {
 				return err
 			}
 		case len(key) > 5 && key[:5] == "slot_":
@@ -417,7 +417,7 @@ func (t *TuningData) UnmarshalJSON(data []byte) error {
 			}
 
 			var slotRaw map[string]json.RawMessage
-			if err := json.Unmarshal(value, &slotRaw); err != nil {
+			if err := JSONUnmarshal(value, &slotRaw); err != nil {
 				return err
 			}
 
@@ -425,7 +425,7 @@ func (t *TuningData) UnmarshalJSON(data []byte) error {
 			for statKey, statValue := range slotRaw {
 				if statKey == "purchase_ts" {
 					var purchaseTS int64
-					if err := json.Unmarshal(statValue, &purchaseTS); err != nil {
+					if err := JSONUnmarshal(statValue, &purchaseTS); err != nil {
 						return err
 					}
 					t.PurchaseTS[slotID] = purchaseTS
@@ -433,7 +433,7 @@ func (t *TuningData) UnmarshalJSON(data []byte) error {
 				}
 
 				var stat int
-				if err := json.Unmarshal(statValue, &stat); err != nil {
+				if err := JSONUnmarshal(statValue, &stat); err != nil {
 					return err
 				}
 				slotStats[statKey] = stat
@@ -589,12 +589,12 @@ func (t *TrapperQuest) UnmarshalJSON(data []byte) error {
 	}{
 		Alias: (*Alias)(t),
 	}
-	if err := json.Unmarshal(data, &aux); err != nil {
+	if err := JSONUnmarshal(data, &aux); err != nil {
 		return err
 	}
 
 	var raw map[string]any
-	if err := json.Unmarshal(data, &raw); err != nil {
+	if err := JSONUnmarshal(data, &raw); err != nil {
 		return err
 	}
 
@@ -725,7 +725,7 @@ type MemberTrophyFish struct {
 
 func (t *MemberTrophyFish) UnmarshalJSON(data []byte) error {
 	var raw map[string]json.RawMessage
-	if err := json.Unmarshal(data, &raw); err != nil {
+	if err := JSONUnmarshal(data, &raw); err != nil {
 		return err
 	}
 
@@ -734,16 +734,16 @@ func (t *MemberTrophyFish) UnmarshalJSON(data []byte) error {
 	for key, value := range raw {
 		switch key {
 		case "rewards":
-			if err := json.Unmarshal(value, &t.Rewards); err != nil {
+			if err := JSONUnmarshal(value, &t.Rewards); err != nil {
 				return err
 			}
 		case "total_caught":
-			if err := json.Unmarshal(value, &t.TotalCaught); err != nil {
+			if err := JSONUnmarshal(value, &t.TotalCaught); err != nil {
 				return err
 			}
 		default:
 			var num int
-			if err := json.Unmarshal(value, &num); err == nil {
+			if err := JSONUnmarshal(value, &num); err == nil {
 				t.Extra[key] = num
 			}
 		}
@@ -768,7 +768,7 @@ func (e *ExperimentationGame) UnmarshalJSON(data []byte) error {
 	aux := &struct {
 		*Alias
 	}{Alias: (*Alias)(e)}
-	if err := json.Unmarshal(data, &aux); err != nil {
+	if err := JSONUnmarshal(data, &aux); err != nil {
 		return err
 	}
 	e.Attempts = make(map[int]int)
@@ -777,7 +777,7 @@ func (e *ExperimentationGame) UnmarshalJSON(data []byte) error {
 	e.Raw = make(map[string]int64)
 
 	var raw map[string]any
-	if err := json.Unmarshal(data, &raw); err != nil {
+	if err := JSONUnmarshal(data, &raw); err != nil {
 		return err
 	}
 	for k, v := range raw {
@@ -890,24 +890,25 @@ type Bestiary struct {
 }
 
 func (b *Bestiary) UnmarshalJSON(data []byte) error {
-	var raw map[string]any
-	if err := json.Unmarshal(data, &raw); err != nil {
+	// Only kills is read, so the rest of the bestiary (milestones and the like) is skipped rather than decoded.
+	var raw struct {
+		Kills any `json:"kills"`
+	}
+	if err := JSONUnmarshal(data, &raw); err != nil {
 		return err
 	}
 
 	b.Kills = make(map[string]int)
-	if killsRaw, ok := raw["kills"]; ok {
-		if killsMap, ok := killsRaw.(map[string]any); ok {
-			for k, v := range killsMap {
-				switch val := v.(type) {
-				case float64:
-					b.Kills[k] = int(val)
-				case int:
-					b.Kills[k] = val
-				case string:
-					if i, err := strconv.Atoi(val); err == nil {
-						b.Kills[k] = i
-					}
+	if killsMap, ok := raw.Kills.(map[string]any); ok {
+		for k, v := range killsMap {
+			switch val := v.(type) {
+			case float64:
+				b.Kills[k] = int(val)
+			case int:
+				b.Kills[k] = val
+			case string:
+				if i, err := strconv.Atoi(val); err == nil {
+					b.Kills[k] = i
 				}
 			}
 		}
@@ -931,40 +932,35 @@ type SkillTreeNodeData struct {
 }
 
 func (s *SkillTree) UnmarshalJSON(data []byte) error {
+	// One pass: the nodes are read next to the plain fields instead of decoding the whole tree a second time.
 	type Alias SkillTree
 	aux := &struct {
 		*Alias
+		RawNodes any `json:"nodes"`
 	}{
 		Alias: (*Alias)(s),
 	}
-	if err := json.Unmarshal(data, &aux); err != nil {
-		return err
-	}
-
-	var raw map[string]any
-	if err := json.Unmarshal(data, &raw); err != nil {
+	if err := JSONUnmarshal(data, &aux); err != nil {
 		return err
 	}
 
 	s.Nodes = make(map[string]SkillTreeNodeData)
-	if nodesRaw, ok := raw["nodes"]; ok {
-		if nodesMap, ok := nodesRaw.(map[string]any); ok {
-			for skill, v := range nodesMap {
-				if skillMap, ok := v.(map[string]any); ok {
-					nodeData := SkillTreeNodeData{
-						Levels:  make(map[string]int),
-						Toggles: make(map[string]bool),
-					}
-					for k, val := range skillMap {
-						switch typedVal := val.(type) {
-						case float64:
-							nodeData.Levels[k] = int(typedVal)
-						case bool:
-							nodeData.Toggles[k] = typedVal
-						}
-					}
-					s.Nodes[skill] = nodeData
+	if nodesMap, ok := aux.RawNodes.(map[string]any); ok {
+		for skill, v := range nodesMap {
+			if skillMap, ok := v.(map[string]any); ok {
+				nodeData := SkillTreeNodeData{
+					Levels:  make(map[string]int),
+					Toggles: make(map[string]bool),
 				}
+				for k, val := range skillMap {
+					switch typedVal := val.(type) {
+					case float64:
+						nodeData.Levels[k] = int(typedVal)
+					case bool:
+						nodeData.Toggles[k] = typedVal
+					}
+				}
+				s.Nodes[skill] = nodeData
 			}
 		}
 	}
@@ -1006,7 +1002,7 @@ type TreeGifts struct {
 
 func (t *TreeGifts) UnmarshalJSON(data []byte) error {
 	var raw map[string]json.RawMessage
-	if err := json.Unmarshal(data, &raw); err != nil {
+	if err := JSONUnmarshal(data, &raw); err != nil {
 		return err
 	}
 
@@ -1015,12 +1011,12 @@ func (t *TreeGifts) UnmarshalJSON(data []byte) error {
 	for key, value := range raw {
 		switch key {
 		case "milestone_tier_claimed":
-			if err := json.Unmarshal(value, &t.MilestoneTierClaimed); err != nil {
+			if err := JSONUnmarshal(value, &t.MilestoneTierClaimed); err != nil {
 				return err
 			}
 		default:
 			var num int
-			if err := json.Unmarshal(value, &num); err == nil {
+			if err := JSONUnmarshal(value, &num); err == nil {
 				t.Extra[key] = num
 				switch key {
 				case "FIG":
@@ -1048,7 +1044,7 @@ type HarpSongs struct {
 
 func (h *HarpSongs) UnmarshalJSON(data []byte) error {
 	var raw map[string]json.RawMessage
-	if err := json.Unmarshal(data, &raw); err != nil {
+	if err := JSONUnmarshal(data, &raw); err != nil {
 		return err
 	}
 
@@ -1057,20 +1053,20 @@ func (h *HarpSongs) UnmarshalJSON(data []byte) error {
 	for key, value := range raw {
 		switch key {
 		case "claimed_talisman":
-			if err := json.Unmarshal(value, &h.ClaimedTalisman); err != nil {
+			if err := JSONUnmarshal(value, &h.ClaimedTalisman); err != nil {
 				return err
 			}
 		case "selected_song":
-			if err := json.Unmarshal(value, &h.SelectedSong); err != nil {
+			if err := JSONUnmarshal(value, &h.SelectedSong); err != nil {
 				return err
 			}
 		case "selected_song_epoch":
-			if err := json.Unmarshal(value, &h.SelectedSongEpoch); err != nil {
+			if err := JSONUnmarshal(value, &h.SelectedSongEpoch); err != nil {
 				return err
 			}
 		default:
 			var num float64
-			if err := json.Unmarshal(value, &num); err == nil {
+			if err := JSONUnmarshal(value, &num); err == nil {
 				h.Extra[key] = num
 			}
 		}
